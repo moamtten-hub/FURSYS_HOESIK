@@ -1,0 +1,395 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>송파 회식 장소 추천</title>
+  <style>
+    :root {
+      --bg: #f6f7fb;
+      --card: #ffffff;
+      --text: #111827;
+      --muted: #6b7280;
+      --line: #e5e7eb;
+      --accent: #111827;
+      --soft: #f3f4f6;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans KR", sans-serif;
+      background: linear-gradient(180deg, #f8fafc 0%, #f3f4f6 100%);
+      color: var(--text);
+    }
+    .wrap {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 28px 20px 64px;
+    }
+    .hero {
+      background: rgba(255,255,255,0.9);
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      padding: 28px;
+      box-shadow: 0 10px 30px rgba(17,24,39,0.05);
+      backdrop-filter: blur(10px);
+    }
+    .badge {
+      display:inline-block;
+      padding:8px 12px;
+      border-radius:999px;
+      background:#111827;
+      color:#fff;
+      font-size:13px;
+      font-weight:700;
+    }
+    h1 {
+      margin: 14px 0 10px;
+      font-size: clamp(32px, 5vw, 56px);
+      line-height: 1.05;
+    }
+    .sub {
+      color: var(--muted);
+      font-size: 17px;
+      line-height: 1.7;
+      max-width: 820px;
+    }
+    .meta {
+      margin-top: 18px;
+      display:grid;
+      grid-template-columns: repeat(3, minmax(0,1fr));
+      gap:12px;
+    }
+    .meta .item {
+      background: var(--soft);
+      border-radius: 18px;
+      padding: 14px 16px;
+      font-size: 14px;
+      color: #374151;
+    }
+    .grid {
+      display:grid;
+      grid-template-columns: 340px 1fr;
+      gap: 20px;
+      margin-top: 22px;
+    }
+    .panel {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      padding: 20px;
+      box-shadow: 0 8px 24px rgba(17,24,39,0.04);
+    }
+    .panel h2 {
+      font-size: 19px;
+      margin: 0 0 10px;
+    }
+    .panel p.small {
+      margin: 0 0 16px;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.6;
+    }
+    .btns, .chips {
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+    }
+    button, .linkbtn {
+      border: 1px solid var(--line);
+      background: #fff;
+      color: #111827;
+      border-radius: 999px;
+      padding: 10px 14px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: .18s ease;
+    }
+    button.active {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+    }
+    .theme.active {
+      background:#eef2ff;
+      border-color:#c7d2fe;
+      color:#3730a3;
+    }
+    select {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 12px 14px;
+      font-size: 15px;
+      background: #fff;
+    }
+    .resultsTop {
+      display:flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+    .cards {
+      display:grid;
+      grid-template-columns: repeat(2, minmax(0,1fr));
+      gap: 16px;
+    }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      padding: 18px;
+      box-shadow: 0 10px 30px rgba(17,24,39,0.04);
+    }
+    .card h3 {
+      margin: 0;
+      font-size: 20px;
+    }
+    .row {
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      margin-top: 10px;
+    }
+    .pill {
+      display:inline-flex;
+      align-items:center;
+      border-radius:999px;
+      background: var(--soft);
+      color:#374151;
+      padding: 6px 10px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .desc {
+      margin-top: 12px;
+      color: #4b5563;
+      line-height: 1.65;
+      font-size: 14px;
+      min-height: 90px;
+    }
+    .cardFooter {
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+      margin-top: 14px;
+    }
+    .primary {
+      background:#111827;
+      color:#fff;
+      border-color:#111827;
+    }
+    .notice {
+      margin-top: 18px;
+      background: #fff8e7;
+      border: 1px solid #fde68a;
+      color: #92400e;
+      border-radius: 18px;
+      padding: 14px 16px;
+      font-size: 14px;
+      line-height: 1.65;
+    }
+    .footer {
+      margin-top: 26px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.7;
+    }
+    @media (max-width: 900px) {
+      .grid { grid-template-columns: 1fr; }
+      .cards { grid-template-columns: 1fr; }
+      .meta { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <section class="hero">
+      <span class="badge">송파권 회식 장소 추천</span>
+      <h1>오금역 · 경찰병원역 · 방이역 · 가락시장역</h1>
+      <div class="sub">
+        회식 장소 추천 페이지를 배포용 단일 HTML로 정리했습니다. 역, 인원 규모, 분위기 테마로 필터할 수 있고,
+        각 카드에서 네이버지도와 카카오맵 검색 링크로 바로 이동할 수 있습니다.
+      </div>
+      <div class="meta">
+        <div class="item">배포 형태: 별도 빌드 없이 바로 열리는 정적 HTML</div>
+        <div class="item">지도 링크: 네이버지도 / 카카오맵 실제 검색 링크 연결</div>
+        <div class="item">데이터 기준: 공개 리뷰/맛집 목록 기반 수동 선별</div>
+      </div>
+    </section>
+
+    <section class="grid">
+      <aside class="panel">
+        <h2>조건 선택</h2>
+        <p class="small">원하는 역과 분위기를 고르면 회식 후보를 바로 좁힐 수 있습니다.</p>
+
+        <h2 style="margin-top:22px;">1. 역</h2>
+        <div class="btns" id="stationButtons"></div>
+
+        <h2 style="margin-top:22px;">2. 인원 느낌</h2>
+        <select id="capacitySelect">
+          <option value="">전체</option>
+          <option value="중형">5~12명 중심</option>
+          <option value="중대형">10명 이상 추천</option>
+          <option value="대형">단체 회식 우선</option>
+        </select>
+
+        <h2 style="margin-top:22px;">3. 테마</h2>
+        <div class="chips" id="themeButtons"></div>
+
+        <div class="notice">
+          현재 데이터는 공개 웹 정보로 선별한 1차 버전입니다. 최종 운영 전에는 팀 취향, 예약 가능 여부, 룸 유무, 최근 휴무 여부를 한 번 더 확인하는 편이 안전합니다.
+        </div>
+      </aside>
+
+      <main class="panel">
+        <div class="resultsTop">
+          <div>
+            <h2 style="margin-bottom:6px;">추천 결과</h2>
+            <p class="small" id="summary">조건에 맞는 식당을 불러오는 중입니다.</p>
+          </div>
+          <a class="linkbtn primary" href="#" id="resetBtn">필터 초기화</a>
+        </div>
+        <div class="cards" id="cards"></div>
+
+        <div class="footer">
+          출처 요약: 다이닝코드 오금역/오금동/방이/가락시장역 목록 및 개별 식당 리뷰, 그리고 우아한갈비 소개 스니펫을 반영했습니다.
+          실제 영업시간, 예약 정책, 최신 평점은 지도 링크에서 다시 확인하는 것을 권장합니다.
+        </div>
+      </main>
+    </section>
+  </div>
+
+  <script>
+    const RESTAURANTS = [{'name': '오금버드나무집', 'station': '오금역', 'category': '돼지갈비 / 갈매기살', 'themes': ['고기', '회식', '무료주차'], 'capacity': '중대형', 'description': '다이닝코드 리뷰에서 가게가 넓고 가족외식이나 회식에 적합하다는 평가가 확인된 오금동 고기집.', 'source': 'DiningCode', 'mapUrl': 'https://map.naver.com/p/search/%EC%98%A4%EA%B8%88%EB%B2%84%EB%93%9C%EB%82%98%EB%AC%B4%EC%A7%91%20%EC%98%A4%EA%B8%88%EC%97%AD', 'kakaoUrl': 'https://map.kakao.com/?q=%EC%98%A4%EA%B8%88%EB%B2%84%EB%93%9C%EB%82%98%EB%AC%B4%EC%A7%91%20%EC%98%A4%EA%B8%88%EC%97%AD'}, {'name': '등촌샤브칼국수 오금점', 'station': '오금역', 'category': '샤브칼국수', 'themes': ['한식', '가성비', '무난함'], 'capacity': '중형', 'description': '다이닝코드 오금동/오금역 맛집 목록 상위권에 보이는 오금역권 대표 식사형 선택지.', 'source': 'DiningCode', 'mapUrl': 'https://map.naver.com/p/search/%EB%93%B1%EC%B4%8C%EC%83%A4%EB%B8%8C%EC%B9%BC%EA%B5%AD%EC%88%98%20%EC%98%A4%EA%B8%88%EC%A0%90%20%EC%98%A4%EA%B8%88%EC%97%AD', 'kakaoUrl': 'https://map.kakao.com/?q=%EB%93%B1%EC%B4%8C%EC%83%A4%EB%B8%8C%EC%B9%BC%EA%B5%AD%EC%88%98%20%EC%98%A4%EA%B8%88%EC%A0%90%20%EC%98%A4%EA%B8%88%EC%97%AD'}, {'name': '우아한갈비', 'station': '경찰병원역', 'category': '숯불갈비 / 한돈갈비', 'themes': ['고기', '회식', '단체석'], 'capacity': '중대형', 'description': '유튜브 매장 소개 스니펫 기준 경찰병원역 1번 출구 인근, 단체석·예약·남녀 화장실 구분·장애인 편의시설 정보가 확인된 갈비집.', 'source': 'YouTube snippet', 'mapUrl': 'https://map.naver.com/p/search/%EC%9A%B0%EC%95%84%ED%95%9C%EA%B0%88%EB%B9%84%20%EA%B2%BD%EC%B0%B0%EB%B3%91%EC%9B%90%EC%97%AD', 'kakaoUrl': 'https://map.kakao.com/?q=%EC%9A%B0%EC%95%84%ED%95%9C%EA%B0%88%EB%B9%84%20%EA%B2%BD%EC%B0%B0%EB%B3%91%EC%9B%90%EC%97%AD'}, {'name': '마천골', 'station': '경찰병원역', 'category': '소고기 특수부위', 'themes': ['고기', '가성비', '회식'], 'capacity': '중형', 'description': '가락동 맛집 추천 글에서 소고기 특수부위를 비교적 합리적인 가격에 먹기 좋다고 소개된 고기집.', 'source': '지역 맛집 정리 글', 'mapUrl': 'https://map.naver.com/p/search/%EB%A7%88%EC%B2%9C%EA%B3%A8%20%EA%B2%BD%EC%B0%B0%EB%B3%91%EC%9B%90%EC%97%AD', 'kakaoUrl': 'https://map.kakao.com/?q=%EB%A7%88%EC%B2%9C%EA%B3%A8%20%EA%B2%BD%EC%B0%B0%EB%B3%91%EC%9B%90%EC%97%AD'}, {'name': '방이옥 본점', 'station': '방이역', 'category': '우대갈비 / 수비드 삼겹', 'themes': ['고기', '분위기', '데이트/모임'], 'capacity': '중형', 'description': '다이닝코드 리뷰에서 분위기와 고기 퀄리티, 직원이 구워주는 점, 금요일 저녁 예약 필요성이 언급된 방이동 인기 고깃집.', 'source': 'DiningCode', 'mapUrl': 'https://map.naver.com/p/search/%EB%B0%A9%EC%9D%B4%EC%98%A5%20%EB%B3%B8%EC%A0%90%20%EB%B0%A9%EC%9D%B4%EC%97%AD', 'kakaoUrl': 'https://map.kakao.com/?q=%EB%B0%A9%EC%9D%B4%EC%98%A5%20%EB%B3%B8%EC%A0%90%20%EB%B0%A9%EC%9D%B4%EC%97%AD'}, {'name': '육화식당', 'station': '방이역', 'category': '암돼지 / 숙성고기', 'themes': ['고기', '가성비', '회식'], 'capacity': '중대형', 'description': '다이닝코드 리뷰에서 가성비와 고기 퀄리티, 셀프바, 인근 모임/회식 수요가 언급된 방이 먹자골목 고깃집.', 'source': 'DiningCode', 'mapUrl': 'https://map.naver.com/p/search/%EC%9C%A1%ED%99%94%EC%8B%9D%EB%8B%B9%20%EB%B0%A9%EC%9D%B4%EC%97%AD', 'kakaoUrl': 'https://map.kakao.com/?q=%EC%9C%A1%ED%99%94%EC%8B%9D%EB%8B%B9%20%EB%B0%A9%EC%9D%B4%EC%97%AD'}, {'name': '팔진향 방이점', 'station': '방이역', 'category': '중식 / 베이징덕', 'themes': ['중식', '대화', '단체모임'], 'capacity': '대형', 'description': '다이닝코드 리뷰에서 테이블이 많고 음식이 빨리 나와 식사 모임에 무난하다는 평이 보이는 방이동 중식당.', 'source': 'DiningCode', 'mapUrl': 'https://map.naver.com/p/search/%ED%8C%94%EC%A7%84%ED%96%A5%20%EB%B0%A9%EC%9D%B4%EC%A0%90%20%EB%B0%A9%EC%9D%B4%EC%97%AD', 'kakaoUrl': 'https://map.kakao.com/?q=%ED%8C%94%EC%A7%84%ED%96%A5%20%EB%B0%A9%EC%9D%B4%EC%A0%90%20%EB%B0%A9%EC%9D%B4%EC%97%AD'}, {'name': '오향가 가락동', 'station': '가락시장역', 'category': '족발 / 냉채족발', 'themes': ['한식', '회식', '인기맛집'], 'capacity': '중대형', 'description': '다이닝코드 가락시장역 Top100에서 웨이팅이 있을 정도로 족발·냉채족발이 인기인 곳으로 소개된 식당.', 'source': 'DiningCode', 'mapUrl': 'https://map.naver.com/p/search/%EC%98%A4%ED%96%A5%EA%B0%80%20%EA%B0%80%EB%9D%BD%EB%8F%99%20%EA%B0%80%EB%9D%BD%EC%8B%9C%EC%9E%A5%EC%97%AD', 'kakaoUrl': 'https://map.kakao.com/?q=%EC%98%A4%ED%96%A5%EA%B0%80%20%EA%B0%80%EB%9D%BD%EB%8F%99%20%EA%B0%80%EB%9D%BD%EC%8B%9C%EC%9E%A5%EC%97%AD'}, {'name': '화포식당 가락점', 'station': '가락시장역', 'category': '고깃집 / 부대찌개', 'themes': ['고기', '점심회식', '무난함'], 'capacity': '중형', 'description': '다이닝코드 가락시장역 Top100에서 고기와 점심 메뉴 부대찌개가 꾸준히 언급되는 가락동 식당.', 'source': 'DiningCode', 'mapUrl': 'https://map.naver.com/p/search/%ED%99%94%ED%8F%AC%EC%8B%9D%EB%8B%B9%20%EA%B0%80%EB%9D%BD%EC%A0%90%20%EA%B0%80%EB%9D%BD%EC%8B%9C%EC%9E%A5%EC%97%AD', 'kakaoUrl': 'https://map.kakao.com/?q=%ED%99%94%ED%8F%AC%EC%8B%9D%EB%8B%B9%20%EA%B0%80%EB%9D%BD%EC%A0%90%20%EA%B0%80%EB%9D%BD%EC%8B%9C%EC%9E%A5%EC%97%AD'}, {'name': '진성한우곱창 가락본점', 'station': '가락시장역', 'category': '곱창 / 막창', 'themes': ['술집', '회식', '직원구이'], 'capacity': '중형', 'description': '다이닝코드 가락시장역 Top100에서 웨이팅이 있을 정도로 인기 있고 초벌 후 직원이 구워준다는 점이 소개된 곱창집.', 'source': 'DiningCode', 'mapUrl': 'https://map.naver.com/p/search/%EC%A7%84%EC%84%B1%ED%95%9C%EC%9A%B0%EA%B3%B1%EC%B0%BD%20%EA%B0%80%EB%9D%BD%EB%B3%B8%EC%A0%90%20%EA%B0%80%EB%9D%BD%EC%8B%9C%EC%9E%A5%EC%97%AD', 'kakaoUrl': 'https://map.kakao.com/?q=%EC%A7%84%EC%84%B1%ED%95%9C%EC%9A%B0%EA%B3%B1%EC%B0%BD%20%EA%B0%80%EB%9D%BD%EB%B3%B8%EC%A0%90%20%EA%B0%80%EB%9D%BD%EC%8B%9C%EC%9E%A5%EC%97%AD'}, {'name': '성전일식', 'station': '가락시장역', 'category': '횟집 / 일식집', 'themes': ['해산물', '회식', '신선함'], 'capacity': '중대형', 'description': '다이닝코드에서 가락몰 5관 1층, 횟감을 고르면 회를 떠서 매운탕 재료와 함께 연결해주는 방식이 소개된 곳.', 'source': 'DiningCode', 'mapUrl': 'https://map.naver.com/p/search/%EC%84%B1%EC%A0%84%EC%9D%BC%EC%8B%9D%20%EA%B0%80%EB%9D%BD%EC%8B%9C%EC%9E%A5%EC%97%AD', 'kakaoUrl': 'https://map.kakao.com/?q=%EC%84%B1%EC%A0%84%EC%9D%BC%EC%8B%9D%20%EA%B0%80%EB%9D%BD%EC%8B%9C%EC%9E%A5%EC%97%AD'}];
+    const STATIONS = ["오금역", "경찰병원역", "방이역", "가락시장역"];
+    const THEMES = [...new Set(RESTAURANTS.flatMap(r => r.themes))];
+
+    let selectedStation = "오금역";
+    let selectedCapacity = "";
+    let selectedThemes = [];
+
+    const stationButtons = document.getElementById("stationButtons");
+    const themeButtons = document.getElementById("themeButtons");
+    const cards = document.getElementById("cards");
+    const summary = document.getElementById("summary");
+    const capacitySelect = document.getElementById("capacitySelect");
+    const resetBtn = document.getElementById("resetBtn");
+
+    function renderStations() {
+      stationButtons.innerHTML = "";
+      STATIONS.forEach(st => {
+        const btn = document.createElement("button");
+        btn.textContent = st;
+        btn.className = selectedStation === st ? "active" : "";
+        btn.onclick = () => {
+          selectedStation = st;
+          render();
+        };
+        stationButtons.appendChild(btn);
+      });
+    }
+
+    function renderThemes() {
+      themeButtons.innerHTML = "";
+      THEMES.forEach(theme => {
+        const btn = document.createElement("button");
+        btn.textContent = theme;
+        btn.className = "theme " + (selectedThemes.includes(theme) ? "active" : "");
+        btn.onclick = () => {
+          if (selectedThemes.includes(theme)) {
+            selectedThemes = selectedThemes.filter(t => t !== theme);
+          } else {
+            selectedThemes = [...selectedThemes, theme];
+          }
+          render();
+        };
+        themeButtons.appendChild(btn);
+      });
+    }
+
+    function matchCapacity(item) {
+      if (!selectedCapacity) return true;
+      return item.capacity === selectedCapacity || (selectedCapacity === "중형" && item.capacity === "중대형");
+    }
+
+    function matchThemes(item) {
+      if (!selectedThemes.length) return true;
+      return selectedThemes.some(theme => item.themes.includes(theme));
+    }
+
+    function filtered() {
+      return RESTAURANTS.filter(item =>
+        item.station === selectedStation &&
+        matchCapacity(item) &&
+        matchThemes(item)
+      );
+    }
+
+    function renderCards() {
+      const data = filtered();
+      summary.textContent = `${selectedStation} 기준 ${data.length}곳이 조건에 맞습니다.`;
+      cards.innerHTML = "";
+
+      if (!data.length) {
+        cards.innerHTML = `
+          <div class="card" style="grid-column:1/-1;">
+            <h3>조건에 맞는 후보가 아직 없습니다</h3>
+            <div class="desc">테마를 줄이거나 인원 필터를 완화해보세요.</div>
+          </div>
+        `;
+        return;
+      }
+
+      data.forEach(item => {
+        const el = document.createElement("article");
+        el.className = "card";
+        el.innerHTML = `
+          <h3>${item.name}</h3>
+          <div class="row">
+            <span class="pill">${item.station}</span>
+            <span class="pill">${item.category}</span>
+            <span class="pill">${item.capacity}</span>
+          </div>
+          <div class="row">
+            ${item.themes.map(t => `<span class="pill">#${t}</span>`).join("")}
+          </div>
+          <div class="desc">${item.description}</div>
+          <div class="row"><span class="pill">출처: ${item.source}</span></div>
+          <div class="cardFooter">
+            <a class="linkbtn primary" href="${item.mapUrl}" target="_blank" rel="noreferrer">네이버지도</a>
+            <a class="linkbtn" href="${item.kakaoUrl}" target="_blank" rel="noreferrer">카카오맵</a>
+          </div>
+        `;
+        cards.appendChild(el);
+      });
+    }
+
+    capacitySelect.onchange = (e) => {
+      selectedCapacity = e.target.value;
+      render();
+    };
+
+    resetBtn.onclick = (e) => {
+      e.preventDefault();
+      selectedStation = "오금역";
+      selectedCapacity = "";
+      selectedThemes = [];
+      capacitySelect.value = "";
+      render();
+    };
+
+    function render() {
+      renderStations();
+      renderThemes();
+      renderCards();
+    }
+
+    render();
+  </script>
+</body>
+</html>
